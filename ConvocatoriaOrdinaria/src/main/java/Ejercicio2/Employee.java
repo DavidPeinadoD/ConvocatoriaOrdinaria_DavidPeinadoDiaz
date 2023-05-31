@@ -59,14 +59,52 @@ class Employee {
     }
 
     public void enrollCourse(Course course) {
-        // Lógica para inscribir a un curso
+        // Verificar si el empleado ya está inscrito en el curso
+        for (SubjectGrade subjectGrade : subjectGrades) {
+            if (subjectGrade.getSubject().getSubjectId().equals(course.getCourseId())) {
+                System.out.println("El empleado ya está inscrito en este curso.");
+                return;
+            }
+        }
+
+        // Inscribir al empleado en el curso
+        Subject subject = new Subject(course.getCourseId(), course.getCourseName());
+        subjectGrades.add(new SubjectGrade(subject, 0.0));
+        System.out.println("El empleado ha sido inscrito en el curso: " + course.getCourseName());
     }
 
+
+
     public void registerGrade(Subject subject, double grade) {
-        // Lógica para registrar la nota de una asignatura
+        // Verificar si el empleado está inscrito en la asignatura
+        boolean isEnrolled = false;
+        for (SubjectGrade subjectGrade : subjectGrades) {
+            if (subjectGrade.getSubject().equals(subject)) {
+                subjectGrade.setGrade(grade);
+                isEnrolled = true;
+                break;
+            }
+        }
+
+        if (isEnrolled) {
+            System.out.println("Se ha registrado la nota de la asignatura: " + subject.getSubjectName());
+        } else {
+            System.out.println("El empleado no está inscrito en la asignatura: " + subject.getSubjectName());
+        }
     }
 
     public void acquireCertificate(Certificate certificate) {
-        // Lógica para adquirir un certificado
+        // Verificar si el empleado ya ha adquirido el certificado
+        for (Certificate cert : certificates) {
+            if (cert.equals(certificate)) {
+                System.out.println("El empleado ya ha adquirido este certificado.");
+                return;
+            }
+        }
+
+        // Adquirir el certificado
+        certificates.add(certificate);
+        System.out.println("El empleado ha adquirido el certificado: " + certificate.getCertificateName());
     }
+
 }
